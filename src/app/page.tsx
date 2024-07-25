@@ -8,8 +8,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   username: string;
@@ -22,9 +22,11 @@ export default function Home() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
+    router.push("/to-do-list");
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -41,7 +43,7 @@ export default function Home() {
     <div className="flex flex-col items-center h-screen justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="rounded  w-full md:w-1/2 lg:w-1/3 xl:w-1/4  mt-4 flex flex-col items-center gap-7 px-10 pt-5 pb-5"
+        className="rounded  md:w-1/3 lg:w-1/3 xl:w-1/4 min-w-72 mt-4 flex flex-col items-center gap-7 px-10 pt-5 pb-5"
       >
         <TextField
           className="w-full"
@@ -81,7 +83,7 @@ export default function Home() {
             Login
           </Button>
           <Button variant="contained" type="button">
-            <Link href="/sign-up">Register</Link>
+            <Link href="/sign-up">Sign up</Link>
           </Button>
         </div>
       </form>
