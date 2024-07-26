@@ -1,14 +1,28 @@
 "use client";
-import CreateToDoForm from "@/components/createToDoForm";
-import { newTodoAtom, todosAtom } from "@/stateManagement/atom";
-import { useAtom } from "jotai";
+
+import Button from "@mui/material/Button";
+import Link from "next/link";
+import { todosAtom } from "@/stateManagement/todos/todosAtom";
+import ToDo from "./toDo";
+import { useAtomValue } from "jotai";
 
 export default function ToDoList() {
-  const [todos, setTodos] = useAtom(todosAtom);
-  const [newTodo, setNewTodo] = useAtom(newTodoAtom);
+  const todoList = useAtomValue(todosAtom);
   return (
-    <div className="flex flex-col items-center h-full w-full pt-10">
-      <CreateToDoForm />
+    <div className="rounded p-5 flex flex-col gap-5 drop-shadow shadow w-1/3 overflow-auto max-h-fit pb-32">
+      <Button variant="contained" color="success" className="self-end">
+        <Link href="/to-do-list/add">Add To Do</Link>
+      </Button>
+      {todoList.map((example, index) => (
+        <ToDo
+          key={index}
+          title={example.title}
+          description={example.description}
+          dueDate={example.dueDate}
+          status={example.status}
+          index={index}
+        />
+      ))}
     </div>
   );
 }

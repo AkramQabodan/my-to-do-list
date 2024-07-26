@@ -1,5 +1,4 @@
 "use client";
-import { Todo, todoStatus } from "@/stateManagement/atom";
 import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -9,29 +8,56 @@ import Button from "@mui/material/Button";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import dayjs from "dayjs";
-export default function CreateToDoForm() {
+import {
+  EtodoStatus,
+  processedTodosAtom,
+  Todo,
+} from "@/stateManagement/todos/todosAtom";
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import {
+  addToDoAtom,
+  updateToDoAtom,
+} from "@/stateManagement/todos/todosActions";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+export default function CreateToDoForm({ toDoId }: { toDoId?: number }) {
+  const addToDo = useSetAtom(addToDoAtom);
+  const updateToDo = useSetAtom(updateToDoAtom);
+  const todos = useAtomValue(processedTodosAtom);
+  const initiativeValues = toDoId
+    ? todos[toDoId - 1]
+    : {
+        title: "",
+        description: "",
+        dueDate: dayjs(),
+        status: EtodoStatus.pending,
+      };
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
+    getValues,
   } = useForm<Todo>({
-    defaultValues: {
-      title: "",
-      description: "",
-      dueDate: dayjs(),
-      status: todoStatus.pending,
-    },
+    defaultValues: initiativeValues,
   });
 
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<Todo> = (data) => {
-    console.log(data);
+    if (toDoId) {
+      updateToDo(toDoId - 1, data);
+    } else {
+      addToDo(data);
+    }
+    router.push("/to-do-list");
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="border-red-300 border-2 rounded p-5 flex flex-col gap-5 drop-shadow shadow"
+      className=" border-2 rounded p-5 flex flex-col gap-5 drop-shadow shadow"
     >
       <TextField
         className="w-full"
@@ -69,6 +95,7 @@ export default function CreateToDoForm() {
                   onChange={(date) => {
                     field.onChange(date);
                   }}
+                  value={field.value}
                   slotProps={{
                     textField: {
                       helperText: errors.dueDate?.message,
@@ -95,23 +122,23 @@ export default function CreateToDoForm() {
             aria-label="status"
           >
             <ToggleButton
-              value={todoStatus.pending}
+              value={EtodoStatus.pending}
               aria-label="pending"
-              color="info"
+              color="standard"
               sx={{ minWidth: "115px" }}
             >
               Pending
             </ToggleButton>
             <ToggleButton
-              value={todoStatus.doing}
+              value={EtodoStatus.doing}
               aria-label="doing"
-              color="warning"
+              color="primary"
               sx={{ minWidth: "115px" }}
             >
               Doing
             </ToggleButton>
             <ToggleButton
-              value={todoStatus.completed}
+              value={EtodoStatus.completed}
               aria-label="completed"
               color="success"
               sx={{ minWidth: "115px" }}
@@ -122,7 +149,7 @@ export default function CreateToDoForm() {
         )}
       />
       <Button variant="contained" type="submit" color="success">
-        Save
+        {toDoId ? "Update" : "Save"}
       </Button>
     </form>
   );

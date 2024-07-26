@@ -10,6 +10,11 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { validateLogin } from "@/Utilities/userUtils";
+import { useAtomValue, useSetAtom } from "jotai";
+import { usersAtom } from "@/stateManagement/auth/Users/usersAtom";
+import { setCurrentUserAtom } from "@/stateManagement/auth/Users/usersActions";
+import Alert from "@mui/material/Alert";
 
 type Inputs = {
   username: string;
@@ -17,19 +22,25 @@ type Inputs = {
 };
 
 export default function Home() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showUserExistsWarning, setShowUserExistsWarning] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
   const router = useRouter();
+  const users = useAtomValue(usersAtom);
+  const setUser = useSetAtom(setCurrentUserAtom);
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-    router.push("/to-do-list");
+  const onSubmit: SubmitHandler<Inputs> = ({ username, password }) => {
+    if (validateLogin(username, password, users)) {
+      setUser({ username, password });
+      router.push("/to-do-list");
+    } else {
+      setShowUserExistsWarning(true);
+    }
   };
-
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -43,7 +54,7 @@ export default function Home() {
     <div className="flex flex-col items-center h-screen justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="rounded  md:w-1/3 lg:w-1/3 xl:w-1/4 min-w-72 mt-4 flex flex-col items-center gap-7 px-10 pt-5 pb-5"
+        className="rounded  md:w-1/3 lg:w-1/3 xl:w-1/4 min-w-80 mt-4 flex flex-col items-center gap-7 px-10 pt-5 pb-5"
       >
         <TextField
           className="w-full"
@@ -78,6 +89,9 @@ export default function Home() {
             ),
           }}
         />
+        {showUserExistsWarning && (
+          <Alert severity="error">Invalid Email Or Password</Alert>
+        )}
         <div className="row gap-3 flex">
           <Button variant="contained" type="submit" color="success">
             Login

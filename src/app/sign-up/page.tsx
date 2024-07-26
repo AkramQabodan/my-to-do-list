@@ -1,7 +1,16 @@
 "use client";
 
+import { addUserAtom } from "@/stateManagement/auth/Users/usersActions";
+import { usersAtom } from "@/stateManagement/auth/Users/usersAtom";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import { TextField, InputAdornment, IconButton, Button } from "@mui/material";
+import {
+  TextField,
+  InputAdornment,
+  IconButton,
+  Button,
+  Alert,
+} from "@mui/material";
+import { useAtomValue, useSetAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,11 +30,22 @@ export default function SignUpPage() {
     formState: { errors },
   } = useForm<Inputs>();
   const [showPassword, setShowPassword] = useState(false);
+  const [showUserExistsWarning, setShowUserExistsWarning] = useState(false);
   const router = useRouter();
   const password = watch("password");
+  const addUser = useSetAtom(addUserAtom);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    router.push("/");
+    const userExist = addUser({
+      username: data.username,
+      password: data.password,
+    });
+    if (userExist) {
+      setShowUserExistsWarning(true);
+    } else {
+      setShowUserExistsWarning(false);
+      router.push("/");
+    }
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -93,6 +113,9 @@ export default function SignUpPage() {
           error={!!errors.confirmPassword}
           helperText={errors.confirmPassword?.message}
         />
+        {showUserExistsWarning && (
+          <Alert severity="error">This user already exists</Alert>
+        )}
         <div className="row gap-3 flex">
           <Button variant="contained" type="button">
             <Link href="/">Back To Login</Link>

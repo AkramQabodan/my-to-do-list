@@ -1,0 +1,14 @@
+import CreateToDoForm from "@/components/createToDoForm";
+import { Button } from "@mui/material";
+import Link from "next/link";
+
+export default function AddToDoPage() {
+  return (
+    <div className="flex flex-col items-center h-full w-full pt-10 gap-5">
+      <CreateToDoForm />
+      <Button variant="contained" color="primary">
+        <Link href="/to-do-list">Back To List</Link>
+      </Button>
+    </div>
+  );
+}
