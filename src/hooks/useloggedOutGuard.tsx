@@ -1,11 +1,17 @@
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const useLoggedOutGuard = () => {
-  const user = localStorage.getItem("user");
   const router = useRouter();
-  if (user) {
-    router.push("/to-do-list");
-    return <></>;
-  }
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      router.push("/main/to-do-list");
+    }
+  }, [router]);
+
+  return null;
 };
+
 export default useLoggedOutGuard;

@@ -13,11 +13,12 @@ import Avatar from "@mui/material/Avatar";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useRouter } from "next/navigation";
 import { removeCurrentUserAtom } from "@/stateManagement/auth/Users/usersActions";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import Link from "next/link";
+import { userProfilePictureAtom } from "@/stateManagement/auth/Users/usersSlice";
 
 export default function MenuAppBar() {
-  const [auth, setAuth] = React.useState(true);
+  const userProfilePicture = useAtomValue(userProfilePictureAtom);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const router = useRouter();
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -40,59 +41,56 @@ export default function MenuAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link href="/to-do-list">To Do List</Link>
+            <Link href="/main/to-do-list">To Do List</Link>
           </Typography>
-          {auth && (
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>
-                  <Link href="/profile">
-                    <Chip
-                      avatar={
-                        <Avatar
-                          alt="Natacha"
-                          src="/static/images/avatar/1.jpg"
-                        />
-                      }
-                      label="Profile"
-                      variant="outlined"
-                    />
-                  </Link>
-                </MenuItem>
-                <MenuItem>
+
+          <div>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <Avatar
+                alt="Profile"
+                src={userProfilePicture || "/static/images/avatar/1.jpg"}
+              />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>
+                <Link href="/main/profile">
                   <Chip
-                    icon={<LogoutIcon />}
-                    label="Logout"
-                    onClick={handleLogout}
+                    avatar={<AccountCircle />}
+                    label="Profile"
+                    variant="outlined"
                   />
-                </MenuItem>
-              </Menu>
-            </div>
-          )}
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Chip
+                  icon={<LogoutIcon />}
+                  label="Logout"
+                  onClick={handleLogout}
+                />
+              </MenuItem>
+            </Menu>
+          </div>
         </Toolbar>
       </AppBar>
     </Box>

@@ -4,16 +4,16 @@ import useLoggedInGuard from "@/hooks/useloggedInGuardHook";
 import { Button } from "@mui/material";
 import Link from "next/link";
 
-const EditToDoPage = ({ params }: { params: { id: number } }) => {
+const AddToDoPage = () => {
   useLoggedInGuard();
   return (
     <div className="flex flex-col items-center h-full w-full pt-10 gap-5">
-      <CreateToDoForm toDoId={params.id} />
+      <CreateToDoForm />
       <Button variant="contained" color="primary">
-        <Link href="/to-do-list">Back To List</Link>
+        <Link href="/main/to-do-list">Back To List</Link>
       </Button>
     </div>
   );
 };
 
-export default EditToDoPage;
+export default AddToDoPage;

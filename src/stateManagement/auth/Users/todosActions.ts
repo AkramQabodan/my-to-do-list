@@ -1,33 +1,5 @@
-import dayjs from "dayjs";
 import { atom } from "jotai";
 import { loggedInUserAtom, Todo, usersAtom } from "./usersAtom";
-
-const listOfTodosAtom = atom((get) => {
-  const user = get(loggedInUserAtom);
-  if (user) {
-    return (
-      get(usersAtom).find((userObject) => userObject.username === user)
-        ?.todos || []
-    );
-  }
-  return [];
-});
-
-export const modifiedListOfTodosAtom = atom((get) =>
-  get(listOfTodosAtom).map((todo) => {
-    return { ...todo, dueDate: dayjs(todo.dueDate) };
-  })
-);
-
-export const userProfilePictureAtom = atom((get) => {
-  const loggedInUser = get(loggedInUserAtom);
-  if (!loggedInUser) {
-    return null;
-  }
-  const users = get(usersAtom);
-  const user = users.find((user) => user.username === loggedInUser);
-  return user?.ProfilePicture;
-});
 
 export const addTodoAtom = atom(null, (get, set, todo: Todo) => {
   const loggedInUser = get(loggedInUserAtom);

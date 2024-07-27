@@ -13,9 +13,9 @@ import { useRouter } from "next/navigation";
 import { EtodoStatus, Todo } from "@/stateManagement/auth/Users/usersAtom";
 import {
   addTodoAtom,
-  modifiedListOfTodosAtom,
   updateTodoAtom,
 } from "@/stateManagement/auth/Users/todosActions";
+import { modifiedListOfTodosAtom } from "@/stateManagement/auth/Users/usersSlice";
 export default function CreateToDoForm({ toDoId }: { toDoId?: number }) {
   const addToDo = useSetAtom(addTodoAtom);
   const updateToDo = useSetAtom(updateTodoAtom);
@@ -46,13 +46,13 @@ export default function CreateToDoForm({ toDoId }: { toDoId?: number }) {
     } else {
       addToDo(data);
     }
-    router.push("/to-do-list");
+    router.push("/main/to-do-list");
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className=" border-2 rounded p-5 flex flex-col gap-5 drop-shadow shadow"
+      className=" border-2 rounded p-5 flex flex-col gap-5 drop-shadow shadow w-80 sm:w-96"
     >
       <TextField
         className="w-full"
@@ -120,7 +120,7 @@ export default function CreateToDoForm({ toDoId }: { toDoId?: number }) {
               value={EtodoStatus.pending}
               aria-label="pending"
               color="standard"
-              sx={{ minWidth: "115px" }}
+              sx={{ flex: 1 }}
             >
               Pending
             </ToggleButton>
@@ -128,7 +128,7 @@ export default function CreateToDoForm({ toDoId }: { toDoId?: number }) {
               value={EtodoStatus.doing}
               aria-label="doing"
               color="primary"
-              sx={{ minWidth: "115px" }}
+              sx={{ flex: 1 }}
             >
               Doing
             </ToggleButton>
@@ -136,7 +136,7 @@ export default function CreateToDoForm({ toDoId }: { toDoId?: number }) {
               value={EtodoStatus.completed}
               aria-label="completed"
               color="success"
-              sx={{ minWidth: "115px" }}
+              sx={{ flex: 1 }}
             >
               Completed
             </ToggleButton>

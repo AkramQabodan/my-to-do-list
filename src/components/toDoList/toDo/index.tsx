@@ -8,11 +8,12 @@ import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { EtodoStatus } from "@/stateManagement/auth/Users/usersAtom";
 import { removeToDoAtom } from "@/stateManagement/auth/Users/todosActions";
 import Tooltip from "@mui/material/Tooltip";
+import { useMemo } from "react";
 
 export default function ToDo({
   title,
@@ -30,6 +31,10 @@ export default function ToDo({
   const removeToDo = useSetAtom(removeToDoAtom);
   const router = useRouter();
   const formattedDate = dayjs(dueDate).format("MMMM D, YYYY");
+  const today = useMemo(() => {
+    return new Date();
+  }, []);
+  const exceededDueDate = new Date(formattedDate) < today;
   const deleteToDoHandler = () => {
     removeToDo(index);
   };
@@ -58,8 +63,15 @@ export default function ToDo({
           <Chip label={EtodoStatus.completed} color="success" />
         )}
       </AccordionSummary>
-      <AccordionDetails>{description}</AccordionDetails>
-      <AccordionDetails>{formattedDate}</AccordionDetails>
+      <AccordionDetails>description : {description}</AccordionDetails>
+      <AccordionDetails>
+        Due Date :{" "}
+        {
+          <span className={`${exceededDueDate ? "text-red-500" : ""}`}>
+            {formattedDate}
+          </span>
+        }
+      </AccordionDetails>
       <AccordionDetails
         sx={{
           display: "flex",

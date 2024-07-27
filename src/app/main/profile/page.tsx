@@ -7,10 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import { useAtomValue, useSetAtom } from "jotai";
-import {
-  updateProfilePictureAtom,
-  userProfilePictureAtom,
-} from "@/stateManagement/auth/Users/todosActions";
+import { updateProfilePictureAtom } from "@/stateManagement/auth/Users/todosActions";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -20,9 +17,16 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Box from "@mui/material/Box";
 import WebcamComponent from "@/components/webcam";
+import {
+  todosStatusAtom,
+  userProfilePictureAtom,
+} from "@/stateManagement/auth/Users/usersSlice";
+import Stack from "@mui/material/Stack";
+import Chip from "@mui/material/Chip";
 
 const Profile: React.FC = () => {
   useLoggedInGuard();
+  const status = useAtomValue(todosStatusAtom);
   const loggedInUser = useAtomValue(loggedInUserAtom);
   const updateProfilePicture = useSetAtom(updateProfilePictureAtom);
   const userProfilePicture = useAtomValue(userProfilePictureAtom);
@@ -55,6 +59,7 @@ const Profile: React.FC = () => {
         updateProfilePicture(base64String);
       };
       reader.readAsDataURL(file);
+      setOpen(false);
     }
   };
 
@@ -64,7 +69,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center h-full w-full pt-10 gap-5 ">
-      <h1 className="text-4xl">{loggedInUser}</h1>
+      <h1 className=" text-2xl sm:text-4xl">{loggedInUser}</h1>
       <div className="relative">
         <Avatar
           alt={loggedInUser}
@@ -87,6 +92,11 @@ const Profile: React.FC = () => {
           </IconButton>
         </Tooltip>
       </div>
+      <Stack direction="row" spacing={1}>
+        <Chip label={status.pending + " pending"} color="default" />
+        <Chip label={status.doing + " doing"} color="primary" />
+        <Chip label={status.completed + " completed"} color="success" />
+      </Stack>
       <Dialog
         open={open}
         onClose={() => setOpen(false)}

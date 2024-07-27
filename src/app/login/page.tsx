@@ -33,12 +33,13 @@ export default function Home() {
   } = useForm<Inputs>();
   const router = useRouter();
   const users = useAtomValue(usersAtom);
+
   const setUser = useSetAtom(setCurrentUserAtom);
 
   const onSubmit: SubmitHandler<Inputs> = ({ username, password }) => {
     if (validateLogin(username, password, users)) {
       setUser(username);
-      router.push("/to-do-list");
+      router.push("/main/to-do-list");
     } else {
       setShowUserExistsWarning(true);
     }

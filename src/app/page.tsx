@@ -9,7 +9,7 @@ const Home = () => {
   const user = useAtomValue(loggedInUserAtom);
   useEffect(() => {
     if (user) {
-      router.push("/to-do-list");
+      router.push("/main/to-do-list");
     } else {
       router.push("/login");
     }
