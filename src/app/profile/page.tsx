@@ -11,6 +11,15 @@ import {
   updateProfilePictureAtom,
   userProfilePictureAtom,
 } from "@/stateManagement/auth/Users/todosActions";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Box from "@mui/material/Box";
+import WebcamComponent from "@/components/webcam";
 
 const Profile: React.FC = () => {
   useLoggedInGuard();
@@ -19,17 +28,22 @@ const Profile: React.FC = () => {
   const userProfilePicture = useAtomValue(userProfilePictureAtom);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [open, setOpen] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
+
   useEffect(() => {
     if (userProfilePicture) {
       updateProfilePicture(userProfilePicture);
     }
-  }, []);
+  }, [userProfilePicture, updateProfilePicture]);
 
   const editProfilePictureHandler = () => {
-    // Trigger the file input click
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    setOpen(true);
+  };
+
+  const handleCapture = (imageSrc: string) => {
+    updateProfilePicture(imageSrc);
+    setOpen(false);
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +56,10 @@ const Profile: React.FC = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabIndex(newValue);
   };
 
   return (
@@ -69,13 +87,49 @@ const Profile: React.FC = () => {
           </IconButton>
         </Tooltip>
       </div>
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        accept="image/*"
-        onChange={handleFileChange}
-      />
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Update Profile Picture</DialogTitle>
+        <DialogContent>
+          <Tabs
+            value={tabIndex}
+            onChange={handleTabChange}
+            aria-label="profile picture options"
+          >
+            <Tab label="Capture" />
+            <Tab label="Upload" />
+          </Tabs>
+          <Box sx={{ p: 2 }}>
+            {tabIndex === 0 && <WebcamComponent onCapture={handleCapture} />}
+            {tabIndex === 1 && (
+              <div>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+                <Button
+                  variant="contained"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  Choose File
+                </Button>
+              </div>
+            )}
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)} color="secondary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
