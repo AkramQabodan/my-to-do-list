@@ -14,6 +14,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useRouter } from "next/navigation";
 import { removeCurrentUserAtom } from "@/stateManagement/auth/Users/usersActions";
 import { useSetAtom } from "jotai";
+import Link from "next/link";
 
 export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
@@ -39,7 +40,7 @@ export default function MenuAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            To Do List
+            <Link href="/to-do-list">To Do List</Link>
           </Typography>
           {auth && (
             <div>
@@ -69,13 +70,18 @@ export default function MenuAppBar() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>
-                  <Chip
-                    avatar={
-                      <Avatar alt="Natacha" src="/static/images/avatar/1.jpg" />
-                    }
-                    label="Avatar"
-                    variant="outlined"
-                  />
+                  <Link href="/profile">
+                    <Chip
+                      avatar={
+                        <Avatar
+                          alt="Natacha"
+                          src="/static/images/avatar/1.jpg"
+                        />
+                      }
+                      label="Profile"
+                      variant="outlined"
+                    />
+                  </Link>
                 </MenuItem>
                 <MenuItem>
                   <Chip

@@ -19,6 +19,16 @@ export const modifiedListOfTodosAtom = atom((get) =>
   })
 );
 
+export const userProfilePictureAtom = atom((get) => {
+  const loggedInUser = get(loggedInUserAtom);
+  if (!loggedInUser) {
+    return null;
+  }
+  const users = get(usersAtom);
+  const user = users.find((user) => user.username === loggedInUser);
+  return user?.ProfilePicture;
+});
+
 export const addTodoAtom = atom(null, (get, set, todo: Todo) => {
   const loggedInUser = get(loggedInUserAtom);
   if (!loggedInUser) {
@@ -74,3 +84,22 @@ export const removeToDoAtom = atom(null, (get, set, index: number) => {
 
   set(usersAtom, updatedUsers);
 });
+
+export const updateProfilePictureAtom = atom(
+  null,
+  (get, set, newProfilePicture: string) => {
+    const loggedInUser = get(loggedInUserAtom);
+    if (!loggedInUser) {
+      console.error("No logged-in user found");
+      return;
+    }
+    const users = get(usersAtom);
+    const updatedUsers = users.map((user) => {
+      if (user.username === loggedInUser) {
+        return { ...user, ProfilePicture: newProfilePicture };
+      }
+      return user;
+    });
+    set(usersAtom, updatedUsers);
+  }
+);

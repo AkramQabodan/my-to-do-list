@@ -10,6 +10,7 @@ export const loggedInUserAtom = atomWithStorage<string | undefined>(
 export type User = {
   username: string;
   password: string;
+  ProfilePicture?: string;
   todos: Todo[];
 };
 
