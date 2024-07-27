@@ -8,10 +8,11 @@ import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { EtodoStatus } from "@/stateManagement/todos/todosAtom";
 import { useSetAtom } from "jotai";
-import { removeToDoAtom } from "@/stateManagement/todos/todosActions";
 import { useRouter } from "next/navigation";
+import { EtodoStatus } from "@/stateManagement/auth/Users/usersAtom";
+import { removeToDoAtom } from "@/stateManagement/auth/Users/todosActions";
+import Tooltip from "@mui/material/Tooltip";
 
 export default function ToDo({
   title,
@@ -64,23 +65,27 @@ export default function ToDo({
           display: "flex",
         }}
       >
-        <IconButton
-          aria-label="edit"
-          size="small"
-          sx={{
-            marginLeft: "auto",
-          }}
-          onClick={editToDoHandler}
-        >
-          <EditIcon fontSize="small" color="info" />
-        </IconButton>
-        <IconButton
-          aria-label="delete"
-          size="small"
-          onClick={deleteToDoHandler}
-        >
-          <DeleteIcon fontSize="small" color="error" />
-        </IconButton>
+        <Tooltip title="Edit">
+          <IconButton
+            aria-label="edit"
+            size="small"
+            sx={{
+              marginLeft: "auto",
+            }}
+            onClick={editToDoHandler}
+          >
+            <EditIcon fontSize="small" color="info" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete">
+          <IconButton
+            aria-label="delete"
+            size="small"
+            onClick={deleteToDoHandler}
+          >
+            <DeleteIcon fontSize="small" color="error" />
+          </IconButton>
+        </Tooltip>
       </AccordionDetails>
     </Accordion>
   );

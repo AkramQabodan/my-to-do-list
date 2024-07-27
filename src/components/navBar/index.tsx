@@ -31,7 +31,7 @@ export default function MenuAppBar() {
   const handleLogout = () => {
     handleClose();
     removeCurrentUser();
-    router.push("/");
+    router.push("/login");
   };
 
   return (

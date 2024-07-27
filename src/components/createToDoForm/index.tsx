@@ -8,22 +8,18 @@ import Button from "@mui/material/Button";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import dayjs from "dayjs";
-import {
-  EtodoStatus,
-  processedTodosAtom,
-  Todo,
-} from "@/stateManagement/todos/todosAtom";
-import { atom, useAtomValue, useSetAtom } from "jotai";
-import {
-  addToDoAtom,
-  updateToDoAtom,
-} from "@/stateManagement/todos/todosActions";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { EtodoStatus, Todo } from "@/stateManagement/auth/Users/usersAtom";
+import {
+  addTodoAtom,
+  modifiedListOfTodosAtom,
+  updateTodoAtom,
+} from "@/stateManagement/auth/Users/todosActions";
 export default function CreateToDoForm({ toDoId }: { toDoId?: number }) {
-  const addToDo = useSetAtom(addToDoAtom);
-  const updateToDo = useSetAtom(updateToDoAtom);
-  const todos = useAtomValue(processedTodosAtom);
+  const addToDo = useSetAtom(addTodoAtom);
+  const updateToDo = useSetAtom(updateTodoAtom);
+  const todos = useAtomValue(modifiedListOfTodosAtom);
   const initiativeValues = toDoId
     ? todos[toDoId - 1]
     : {
@@ -38,7 +34,6 @@ export default function CreateToDoForm({ toDoId }: { toDoId?: number }) {
     handleSubmit,
     formState: { errors },
     control,
-    getValues,
   } = useForm<Todo>({
     defaultValues: initiativeValues,
   });

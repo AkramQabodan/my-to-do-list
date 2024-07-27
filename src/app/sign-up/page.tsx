@@ -1,7 +1,7 @@
 "use client";
 
+import useLoggedOutGuard from "@/hooks/useloggedOutGuard";
 import { addUserAtom } from "@/stateManagement/auth/Users/usersActions";
-import { usersAtom } from "@/stateManagement/auth/Users/usersAtom";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import {
   TextField,
@@ -10,7 +10,7 @@ import {
   Button,
   Alert,
 } from "@mui/material";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,6 +23,7 @@ type Inputs = {
 };
 
 export default function SignUpPage() {
+  useLoggedOutGuard();
   const {
     register,
     handleSubmit,
@@ -39,12 +40,13 @@ export default function SignUpPage() {
     const userExist = addUser({
       username: data.username,
       password: data.password,
+      todos: [],
     });
     if (userExist) {
       setShowUserExistsWarning(true);
     } else {
       setShowUserExistsWarning(false);
-      router.push("/");
+      router.push("/login");
     }
   };
 
@@ -118,7 +120,7 @@ export default function SignUpPage() {
         )}
         <div className="row gap-3 flex">
           <Button variant="contained" type="button">
-            <Link href="/">Back To Login</Link>
+            <Link href="/login">Back To Login</Link>
           </Button>
           <Button variant="contained" type="submit" color="success">
             Submit
