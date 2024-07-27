@@ -69,7 +69,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center h-full w-full pt-10 gap-5 ">
-      <h1 className=" text-2xl sm:text-4xl">{loggedInUser}</h1>
+      <h1 className=" text-2xl sm:text-4xl dark:text-white">{loggedInUser}</h1>
       <div className="relative">
         <Avatar
           alt={loggedInUser}
@@ -93,7 +93,11 @@ const Profile: React.FC = () => {
         </Tooltip>
       </div>
       <Stack direction="row" spacing={1}>
-        <Chip label={status.pending + " pending"} color="default" />
+        <Chip
+          label={status.pending + " pending"}
+          color="default"
+          className="dark:text-white dark:bg-slate-400"
+        />
         <Chip label={status.doing + " doing"} color="primary" />
         <Chip label={status.completed + " completed"} color="success" />
       </Stack>

@@ -17,7 +17,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import Link from "next/link";
 import { userProfilePictureAtom } from "@/stateManagement/auth/Users/usersSlice";
 import ToggleButton from "@mui/material/ToggleButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { darkModeAtom } from "@/stateManagement/darkmode";
@@ -26,7 +26,6 @@ export default function MenuAppBar() {
   const userProfilePicture = useAtomValue(userProfilePictureAtom);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const router = useRouter();
-  const [darkMode, setDarkMode] = useAtom(darkModeAtom);
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -40,6 +39,16 @@ export default function MenuAppBar() {
     removeCurrentUser();
     router.push("/auth/login");
   };
+  const [darkMode, setDarkMode] = useAtom(darkModeAtom);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (darkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   return (
     <Box>
@@ -55,7 +64,7 @@ export default function MenuAppBar() {
               setDarkMode(!darkMode);
             }}
           >
-            {darkMode ? <WbSunnyIcon /> : <DarkModeIcon />}
+            {darkMode ? <DarkModeIcon /> : <WbSunnyIcon />}
           </ToggleButton>
           <div>
             <IconButton

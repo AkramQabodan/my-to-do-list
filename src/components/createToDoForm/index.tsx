@@ -52,7 +52,7 @@ export default function CreateToDoForm({ toDoId }: { toDoId?: number }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className=" border-2 rounded p-5 flex flex-col gap-5 drop-shadow shadow w-80 sm:w-96"
+      className=" border-2 rounded p-5 flex flex-col gap-5 drop-shadow shadow w-80 sm:w-96 dark:bg-white"
     >
       <TextField
         className="w-full"

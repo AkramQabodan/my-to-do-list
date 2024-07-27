@@ -9,10 +9,10 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
-    <>
+    <div className=" dark:bg-stone-800 w-full h-full">
       <MenuAppBar />
       {children}
-    </>
+    </div>
   );
 };
 

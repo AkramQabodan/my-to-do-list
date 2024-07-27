@@ -46,9 +46,12 @@ export default function ToDo({
       sx={{
         width: "100%",
       }}
+      className="dark:bg-stone-800 dark:text-white"
     >
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
+        expandIcon={
+          <ExpandMoreIcon className="dark:bg-stone-800 dark:text-white" />
+        }
         aria-controls="panel1-content"
         id="panel1-header"
       >
