@@ -4,7 +4,7 @@ const useLoggedInGuard = () => {
   const user = localStorage.getItem("user");
   const router = useRouter();
   if (!user) {
-    router.push("/login");
+    router.push("/auth/login");
     return <></>;
   }
 };

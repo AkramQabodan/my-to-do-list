@@ -13,14 +13,20 @@ import Avatar from "@mui/material/Avatar";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useRouter } from "next/navigation";
 import { removeCurrentUserAtom } from "@/stateManagement/auth/Users/usersActions";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import Link from "next/link";
 import { userProfilePictureAtom } from "@/stateManagement/auth/Users/usersSlice";
+import ToggleButton from "@mui/material/ToggleButton";
+import { useState } from "react";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import { darkModeAtom } from "@/stateManagement/darkmode";
 
 export default function MenuAppBar() {
   const userProfilePicture = useAtomValue(userProfilePictureAtom);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const router = useRouter();
+  const [darkMode, setDarkMode] = useAtom(darkModeAtom);
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -29,11 +35,10 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
   const removeCurrentUser = useSetAtom(removeCurrentUserAtom);
-
   const handleLogout = () => {
     handleClose();
     removeCurrentUser();
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   return (
@@ -43,7 +48,15 @@ export default function MenuAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link href="/main/to-do-list">To Do List</Link>
           </Typography>
-
+          <ToggleButton
+            value="check"
+            selected={darkMode}
+            onChange={() => {
+              setDarkMode(!darkMode);
+            }}
+          >
+            {darkMode ? <WbSunnyIcon /> : <DarkModeIcon />}
+          </ToggleButton>
           <div>
             <IconButton
               size="large"

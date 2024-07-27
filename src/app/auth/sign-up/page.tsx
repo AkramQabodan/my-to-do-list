@@ -46,7 +46,7 @@ export default function SignUpPage() {
       setShowUserExistsWarning(true);
     } else {
       setShowUserExistsWarning(false);
-      router.push("/login");
+      router.push("/auth/login");
     }
   };
 
@@ -120,7 +120,7 @@ export default function SignUpPage() {
         )}
         <div className="row gap-3 flex">
           <Button variant="contained" type="button">
-            <Link href="/login">Back To Login</Link>
+            <Link href="/auth/login">Back To Login</Link>
           </Button>
           <Button variant="contained" type="submit" color="success">
             Submit

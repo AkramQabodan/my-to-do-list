@@ -100,7 +100,7 @@ export default function Home() {
             Login
           </Button>
           <Button variant="contained" type="button">
-            <Link href="/sign-up">Sign up</Link>
+            <Link href="/auth/sign-up">Sign up</Link>
           </Button>
         </div>
       </form>

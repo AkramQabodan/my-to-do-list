@@ -67,7 +67,13 @@ export default function ToDo({
       <AccordionDetails>
         Due Date :{" "}
         {
-          <span className={`${exceededDueDate ? "text-red-500" : ""}`}>
+          <span
+            className={`${
+              exceededDueDate && status !== EtodoStatus.completed
+                ? "text-red-500"
+                : ""
+            }`}
+          >
             {formattedDate}
           </span>
         }
