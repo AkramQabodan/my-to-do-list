@@ -16,6 +16,7 @@ import { usersAtom } from "@/stateManagement/auth/Users/usersAtom";
 import { setCurrentUserAtom } from "@/stateManagement/auth/Users/usersActions";
 import Alert from "@mui/material/Alert";
 import useLoggedOutGuard from "@/hooks/useloggedOutGuard";
+import useInitiateDarkMode from "@/hooks/startDarkMode";
 
 type Inputs = {
   username: string;
@@ -24,6 +25,7 @@ type Inputs = {
 
 export default function Home() {
   useLoggedOutGuard();
+  useInitiateDarkMode();
   const [showPassword, setShowPassword] = useState(false);
   const [showUserExistsWarning, setShowUserExistsWarning] = useState(false);
   const {
@@ -54,19 +56,23 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center h-screen justify-center">
+    <div className="flex flex-col items-center h-screen justify-center dark:bg-stone-800">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="rounded  md:w-1/3 lg:w-1/3 xl:w-1/4 min-w-80 mt-4 flex flex-col items-center gap-7 px-10 pt-5 pb-5"
       >
         <TextField
-          className="w-full"
+          className="w-full dark:text-white"
           id="username"
           {...register("username", { required: "please enter username" })}
           label="username"
           variant="standard"
           error={!!errors.username}
           helperText={errors.username?.message}
+          InputLabelProps={{ className: "dark:text-white" }}
+          InputProps={{
+            className: "dark:text-white",
+          }}
         />
         <TextField
           className="w-full"
@@ -85,12 +91,15 @@ export default function Home() {
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
+                  className="dark:text-white"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),
+            className: "dark:text-white ",
           }}
+          InputLabelProps={{ className: "dark:text-white" }}
         />
         {showUserExistsWarning && (
           <Alert severity="error">Invalid Email Or Password</Alert>

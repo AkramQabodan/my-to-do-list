@@ -1,5 +1,6 @@
 "use client";
 
+import useInitiateDarkMode from "@/hooks/startDarkMode";
 import useLoggedOutGuard from "@/hooks/useloggedOutGuard";
 import { addUserAtom } from "@/stateManagement/auth/Users/usersActions";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
@@ -24,6 +25,7 @@ type Inputs = {
 
 export default function SignUpPage() {
   useLoggedOutGuard();
+  useInitiateDarkMode();
   const {
     register,
     handleSubmit,
@@ -53,7 +55,7 @@ export default function SignUpPage() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
-    <div className="flex flex-col items-center h-full w-full justify-center">
+    <div className="flex flex-col items-center h-full w-full justify-center  dark:bg-stone-800">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="rounded  md:w-1/3 lg:w-1/3 xl:w-1/4 min-w-72 mt-4 flex flex-col items-center gap-7 px-10 pt-5 pb-5"
@@ -72,6 +74,10 @@ export default function SignUpPage() {
           variant="standard"
           error={!!errors.username}
           helperText={errors.username?.message}
+          InputLabelProps={{ className: "dark:text-white" }}
+          InputProps={{
+            className: "dark:text-white",
+          }}
         />
         <TextField
           className="w-full"
@@ -95,12 +101,15 @@ export default function SignUpPage() {
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                   edge="end"
+                  className="dark:text-white"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),
+            className: "dark:text-white",
           }}
+          InputLabelProps={{ className: "dark:text-white" }}
         />
         <TextField
           className="w-full"
@@ -114,6 +123,10 @@ export default function SignUpPage() {
           type="password"
           error={!!errors.confirmPassword}
           helperText={errors.confirmPassword?.message}
+          InputLabelProps={{ className: "dark:text-white" }}
+          InputProps={{
+            className: "dark:text-white",
+          }}
         />
         {showUserExistsWarning && (
           <Alert severity="error">This user already exists</Alert>
