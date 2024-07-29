@@ -1,11 +1,14 @@
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const useLoggedInGuard = () => {
-  const user = localStorage.getItem("user");
   const router = useRouter();
-  if (!user) {
-    router.push("/auth/login");
-    return <></>;
-  }
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/auth/login");
+    }
+  }, [router]);
 };
 export default useLoggedInGuard;
