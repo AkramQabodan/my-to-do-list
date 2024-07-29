@@ -118,7 +118,7 @@ export default function SignUpPage() {
             required: "please confirm password",
             validate: (value) => value === password || "Passwords do not match",
           })}
-          label="confirmPassword"
+          label="confirm password"
           variant="standard"
           type="password"
           error={!!errors.confirmPassword}
