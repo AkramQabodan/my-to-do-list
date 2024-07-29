@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# My To-Do List Application
 
-## Getting Started
+This is a to-do list application built using Next.js, React, and TypeScript. It includes features like user authentication, task management, and profile management with functionalities like adding, editing, and deleting to-dos.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Running Tests](#running-tests)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- User authentication (sign up, log in, log out)
+- Task management (create, read, update, delete)
+- Profile management with profile picture update
+- Dark mode support
+- State management with Jotai
+- Form validation with React Hook Form
+- Date picking with MUI Date Pickers
+- Responsive design with Tailwind CSS
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Prerequisites
 
-## Learn More
+Ensure you have the following installed:
 
-To learn more about Next.js, take a look at the following resources:
+- [Node.js](https://nodejs.org/) (version 14.x or higher)
+- [npm](https://www.npmjs.com/) (version 6.x or higher)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Follow these steps to set up the development environment:
 
-## Deploy on Vercel
+1. **Clone the repository:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   git clone https://github.com/your-username/my-to-do-list.git
+   cd my-to-do-list
+   npm install
+   npm run dev
+   npm run test
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+my-to-do-list/
+├── public/ # Public assets
+├── src/ # Source files
+│ ├── app/ # Next.js pages and API routes
+│ ├── components/ # Reusable React components
+│ ├── hooks/ # Custom hooks
+│ ├── stateManagement/ # State management with Jotai
+│ ├── styles/ # Global styles
+│ ├── Utilities/ # Utility functions
+├── .eslintrc.json # ESLint configuration
+├── .gitignore # Git ignore file
+├── jest.config.js # Jest configuration
+├── next.config.js # Next.js configuration
+├── package.json # Project metadata and scripts
+├── README.md # This file
+├── tailwind.config.js # Tailwind CSS configuration
+├── tsconfig.json # TypeScript configuration
+└── postcss.config.js # PostCSS configuration
