@@ -1,4 +1,4 @@
-// app/dashboard/layout.tsx
+"use client";
 import MenuAppBar from "@/components/navBar";
 import React from "react";
 import { ReactNode } from "react";

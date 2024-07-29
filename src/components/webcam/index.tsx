@@ -1,4 +1,4 @@
-// components/WebcamComponent.tsx
+"use client";
 import React, { useRef, useCallback } from "react";
 import Webcam from "react-webcam";
 import Button from "@mui/material/Button";
