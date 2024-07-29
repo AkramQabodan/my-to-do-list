@@ -44,22 +44,3 @@ Follow these steps to set up the development environment:
    npm run dev
    npm run test
    ```
-
-my-to-do-list/
-├── public/ # Public assets
-├── src/ # Source files
-│ ├── app/ # Next.js pages and API routes
-│ ├── components/ # Reusable React components
-│ ├── hooks/ # Custom hooks
-│ ├── stateManagement/ # State management with Jotai
-│ ├── styles/ # Global styles
-│ ├── Utilities/ # Utility functions
-├── .eslintrc.json # ESLint configuration
-├── .gitignore # Git ignore file
-├── jest.config.js # Jest configuration
-├── next.config.js # Next.js configuration
-├── package.json # Project metadata and scripts
-├── README.md # This file
-├── tailwind.config.js # Tailwind CSS configuration
-├── tsconfig.json # TypeScript configuration
-└── postcss.config.js # PostCSS configuration
